@@ -1,1 +1,3 @@
-# fovnerf
+# Fov-NeRF: Foveated Neural Radiance Field for Virtual Reality
+
+Coming soon...
