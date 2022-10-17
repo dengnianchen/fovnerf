@@ -1,6 +1,6 @@
 # FoV-NeRF: Foveated Neural Radiance Field for Virtual Reality
 
-### [Project Page](http://dalab.se.sjtu.edu.cn/www/home/?page_id=6618) | [Video](https://youtu.be/GdhdnhghUKY) | [Paper](http://dalab.se.sjtu.edu.cn/www/home/wp-content/uploads/2022/10/ismar2022-tvcg.pdf) | [Data](http://dalab.se.sjtu.edu.cn:81/d/3c0132e442ab4034bd11/)
+### [Project Page](http://dalab.se.sjtu.edu.cn/www/home/?page_id=6618) | [Video](https://youtu.be/GdhdnhghUKY) | [Paper](http://dalab.se.sjtu.edu.cn/www/home/wp-content/uploads/2022/10/ismar2022-tvcg.pdf) | [Data](https://drive.google.com/drive/folders/17rf3KXXOGt-o4xbK04GPmFgknQgFdZpL?usp=sharing)
 
 <img src='docs/figs/teasers.png'/>
 
@@ -55,13 +55,19 @@ Install dependencies first, then compile the program from the source code.
 
 **Install TensorRT**
 
-1. Download TensorRT 8 from https://developer.nvidia.com/nvidia-tensorrt-download and extract.
-2. Copy all contents to CUDA install directory (e.g. /usr/local/cuda/).
+1. Download TensorRT 8.0 from https://developer.nvidia.com/nvidia-tensorrt-download and extract.
+3. Change directory to `samples/trtexec` and `make`
+2. Copy all contents in `include/`, `lib/` and `bin/trtexec` to corresponding folders in CUDA install path (e.g. `/usr/local/cuda/`):
+```bash
+sudo cp include/* ${CUDA_INSTALL_DIRECTORY}/include/
+sudo cp lib/* ${CUDA_INSTALL_DIRECTORY}/lib64/
+sudo cp bin/trtexec ${CUDA_INSTALL_DIRECTORY}/bin/
+```
 
-**Install glfw and GLEW**
+**Install glfw, GLEW and GLM**
 
 ```bash
-sudo apt install libglfw3 libglfw3-dev libglew2.1 libglew-dev glew-utils
+sudo apt install libglfw3 libglfw3-dev libglew2.1 libglew-dev glew-utils libglm-dev
 ```
 
 **Compile**
@@ -76,7 +82,7 @@ When successfully compiled, the executable file will be generated under `cpp/bin
 
 ## Dataset
 
-You can download the synthetic and real datasets used in our paper from http://dalab.se.sjtu.edu.cn:81/d/3c0132e442ab4034bd11/.
+You can download the synthetic and real datasets used in our paper from [Google Drive](https://drive.google.com/drive/folders/17rf3KXXOGt-o4xbK04GPmFgknQgFdZpL?usp=sharing).
 
 Please also cite the original papers if you use any of them in your work.
 
@@ -182,7 +188,7 @@ The video file (or folder of images) whose name contains `hint` is the output of
 ## Real-time Interactive Rendering
 
 We implemented a simple real-time interactive rendering program based on OpenGL, CUDA and TensorRT.
-To play with that, first follow [the guide](#requirements-and-installation) to install the dependencies and compile the program, then run the program by:
+To play with that, first follow [the guide](#requirements-and-installation) to install the dependencies and compile the program, then [export pretrained models](#export-pytorch-models). After that, run the program by:
 
 ```bash
 cd cpp/bin
@@ -218,7 +224,7 @@ Click the mouse in left view region will move the left gaze directly to the clic
 
 For stereo view with stereo adaption, misalignment will be obvious when the left and right gazes are not focused on the same object (i.e. wrong disparity). You can control the disparity by scrolling the wheel to see the changing of this effect as well as the periphery shifting as described in Section 3.2.2. You can also use the key "S" to intuitively compare between the effects of rendering with/without periphery shifting.
 
-### Play with your model:
+### Export PyTorch models:
 
 The program can only load TensorRT workspace file. So we include a tool script to convert the PyTorch model to ONNX model as well as TensorRT workspace:
 
@@ -252,7 +258,12 @@ pretrained/barbershop
     |-- periph.trt
 ```
 
-After exported the foveal and periphery models, move all `.trt` and `.ini` files in the output folder to a new folder under `cpp/nets`. Make sure the file names are `fovea.trt`, `fovea.ini`, `periph.trt` and `periph.ini`.
+After exported the foveal and periphery models, move all `.trt` and `.ini` files in the output folder to a new folder under `cpp/nets`. Make sure the file names are `fovea.trt`, `fovea.ini`, `periph.trt` and `periph.ini`:
+
+```bash
+mkdir cpp/nets/barbershop
+mv pretrained/barbershop/exported/*.ini pretrained/barbershop/exported/*.trt cpp/nets/barbershop/
+```
 
 ## Q&A
 ### 1. Can I train on multiple GPUs?
@@ -277,7 +288,7 @@ nohup python train.py ${ARGUMENTS} > /dev/null 2>&1 &
 This command will return immediately and disable the output of messages to the terminal.
 You can check the log file for the training progress.
 
-### 3. Failed to generate video?
+### 3. Failed to generate video (Unknown encoder 'libx264')?
 
 The python scripts use `ffmpeg` and H.264 codec to generate demo video. Make sure your `ffmpeg` is built with `--enable-libx264` flag. If you don't have one, please follow the guide in [this memo](docs/ffmpeg_guide.md) to build your own.
 
