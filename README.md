@@ -17,12 +17,12 @@ To tackle these problems toward six-degrees-of-freedom, egocentric, and stereo N
 -----
   * [Installation](#requirements-and-installation)
   * [Dataset](#dataset)
-  * [Usage](#train-a-new-model)
+  * [Usage](#training)
     + [Training](#training)
     + [Evaluation](#evaluation)
     + [Foveated Neural Rendering](#foveated-neural-rendering)
     + [Real-time Interactive Rendering](#real-time-interactive-rendering)
-  * [License](#license)
+  * [Q&A](#qa)
   * [Citation](#citation)
 ------
 
