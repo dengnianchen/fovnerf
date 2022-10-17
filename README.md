@@ -53,15 +53,36 @@ pip install PyGLM tensorboardX lpips
 
 Install dependencies first, then compile the program from the source code.
 
-**Install TensorRT**
-
-1. Download TensorRT 8.0 from https://developer.nvidia.com/nvidia-tensorrt-download and extract.
-3. Change directory to `samples/trtexec` and `make`
-2. Copy all contents in `include/`, `lib/` and `bin/trtexec` to corresponding folders in CUDA install path (e.g. `/usr/local/cuda/`):
+**Install cuDNN**
+1. [Download](https://developer.nvidia.com/compute/cudnn/secure/8.6.0/local_installers/11.8/cudnn-linux-x86_64-8.6.0.163_cuda11-archive.tar.xz) the latest cuDNN tar package.
+2. Extract the downloaded package.
+2. Copy all contents in `include/`, `lib/` to corresponding folders in CUDA install path (e.g. `/usr/local/cuda/`):
 ```bash
-sudo cp include/* ${CUDA_INSTALL_DIRECTORY}/include/
-sudo cp lib/* ${CUDA_INSTALL_DIRECTORY}/lib64/
+cd ${CUDNN_EXTRACT_DIRECTORY}
+sudo cp -r include/* ${CUDA_INSTALL_DIRECTORY}/include/
+sudo cp -r lib/* ${CUDA_INSTALL_DIRECTORY}/lib64/
+```
+
+**Install TensorRT**
+1. [Download](https://developer.nvidia.com/compute/machine-learning/tensorrt/secure/8.0.1/tars/tensorrt-8.0.1.6.linux.x86_64-gnu.cuda-11.3.cudnn8.2.tar.gz) TensorRT 8.0 tar package.
+2. Extract the downloaded package.
+3. Build `trtexec`:
+```bash
+cd ${TENSORRT_EXTRACT_DIRECTORY}/samples/trtexec
+make
+cd ../../
+```
+4. Copy all contents in `include/`, `lib/` and `trtexec` to corresponding folders in CUDA install path (e.g. `/usr/local/cuda/`):
+```bash
+sudo cp -r include/* ${CUDA_INSTALL_DIRECTORY}/include/
+sudo cp -r lib/* ${CUDA_INSTALL_DIRECTORY}/lib64/
 sudo cp bin/trtexec ${CUDA_INSTALL_DIRECTORY}/bin/
+```
+5. Run `trtexec` to validate the installation.
+
+If you got some error like libnvinfer.so.8 not found, add `${CUDA_INSTALL_DIRECTPRY}/lib64` to the `LD_LIBRARY_PATH` environment variable and retry:
+```bash
+export LD_LIBRARY_PATH=${CUDA_INSTALL_DIRECTPRY}/lib64:${LD_LIBRARY_PATH}
 ```
 
 **Install glfw, GLEW and GLM**

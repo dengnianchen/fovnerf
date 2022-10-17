@@ -25,7 +25,7 @@ glm::vec2 frameRes(1440.0f, 1600.0f);
 float windowScale = 0.5f;
 glm::vec3 trs;
 glm::vec3 rot_angle;
-glm::mat3 rot;
+glm::mat3 rot(1.0f);
 glm::vec2 fovea_pos = frameRes / 2.0f;
 glm::vec2 fovea_pos_r = frameRes / 2.0f;
 float disparity = 0.0f;
@@ -72,7 +72,7 @@ static void key_callback(GLFWwindow *window, int key, int scancode, int action, 
 		case GLFW_KEY_SPACE:
 			trs = {};
 			rot_angle = {};
-			rot = {};
+			rot = glm::mat3{1.0f};
 			fovea_pos = fovea_pos_r = frameRes / 2.0f;
 			disparity = 0.0f;
 		}
