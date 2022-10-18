@@ -28,7 +28,7 @@ To tackle these problems toward six-degrees-of-freedom, egocentric, and stereo N
 
 ## Requirements and Installation
 
-This code is implemented in PyTorch. The code has been tested on the following system:
+This code is implemented in PyTorch and C++. The code has been tested on the following system:
 
 * Python 3.10
 * PyTorch 1.11.0
@@ -54,36 +54,40 @@ pip install PyGLM tensorboardX lpips
 
 Install dependencies first, then compile the program from the source code.
 
+> Note: Commands below assume you have set the environment variable `${CUDA_INSTALL_DIR}` to your cuda install directory
+> (e.g. `/usr/local/cuda`)
+
 **Install cuDNN**
 1. [Download](https://developer.nvidia.com/compute/cudnn/secure/8.6.0/local_installers/11.8/cudnn-linux-x86_64-8.6.0.163_cuda11-archive.tar.xz) the latest cuDNN tar package.
-2. Extract the downloaded package.
-2. Copy all contents in `include/`, `lib/` to corresponding folders in CUDA install path (e.g. `/usr/local/cuda/`):
+2. Extract the downloaded package to some directory.
+2. Copy all contents in `include/`, `lib/` to corresponding folders in CUDA install directory:
 ```bash
-cd ${CUDNN_EXTRACT_DIRECTORY}
-sudo cp -r include/* ${CUDA_INSTALL_DIRECTORY}/include/
-sudo cp -r lib/* ${CUDA_INSTALL_DIRECTORY}/lib64/
+cd ${CUDNN_EXTRACT_DIR} && \
+sudo cp -r include/* ${CUDA_INSTALL_DIR}/include/ && \
+sudo cp -r lib/* ${CUDA_INSTALL_DIR}/lib64/ && \
 ```
 
 **Install TensorRT**
 1. [Download](https://developer.nvidia.com/compute/machine-learning/tensorrt/secure/8.0.1/tars/tensorrt-8.0.1.6.linux.x86_64-gnu.cuda-11.3.cudnn8.2.tar.gz) TensorRT 8.0 tar package.
-2. Extract the downloaded package.
+2. Extract the downloaded package to some directory.
 3. Build `trtexec`:
 ```bash
-cd ${TENSORRT_EXTRACT_DIRECTORY}/samples/trtexec
-make
-cd ../../
+cd ${TENSORRT_EXTRACT_DIR}/samples/trtexec && make
 ```
-4. Copy all contents in `include/`, `lib/` and `trtexec` to corresponding folders in CUDA install path (e.g. `/usr/local/cuda/`):
+4. Copy all contents in `include/`, `lib/` and `trtexec` to corresponding folders in CUDA install directory:
 ```bash
-sudo cp -r include/* ${CUDA_INSTALL_DIRECTORY}/include/
-sudo cp -r lib/* ${CUDA_INSTALL_DIRECTORY}/lib64/
-sudo cp bin/trtexec ${CUDA_INSTALL_DIRECTORY}/bin/
+cd ${TENSORRT_EXTRACT_DIR} && \
+sudo cp -r include/* ${CUDA_INSTALL_DIR}/include/ && \
+sudo cp -r lib/* ${CUDA_INSTALL_DIR}/lib64/ && \
+sudo cp bin/trtexec ${CUDA_INSTALL_DIR}/bin/
 ```
 5. Run `trtexec` to validate the installation.
 
-If you got some error like libnvinfer.so.8 not found, add `${CUDA_INSTALL_DIRECTPRY}/lib64` to the `LD_LIBRARY_PATH` environment variable and retry:
+If you got some error like "libnvinfer.so.8 not found", add `${CUDA_INSTALL_DIR}/lib64` to the `LD_LIBRARY_PATH` environment variable and retry:
 ```bash
-export LD_LIBRARY_PATH=${CUDA_INSTALL_DIRECTPRY}/lib64:${LD_LIBRARY_PATH}
+touch ~/.bashrc && \
+echo 'export LD_LIBRARY_PATH=${CUDA_INSTALL_DIR}/lib64:${LD_LIBRARY_PATH}' >> ~/.bashrc && \
+source ~/.bashrc
 ```
 
 **Install glfw, GLEW and GLM**
