@@ -272,8 +272,9 @@ Outputs will be stored in `${OUT_DIR}/` laying besides the PyTorch model file. T
 For example, to export the pretrained model for *barbershop*, use the following command:
 
 ```bash
-python export.py pretrained/barbershop/fovea.tar --batch-size 51429 --trt && \
-python export.py pretrained/barbershop/periph.tar --batch-size 108828 --trt
+export SCENE=barbershop
+python export.py pretrained/${SCENE}/fovea.tar --batch-size 51429 --trt && \
+python export.py pretrained/${SCENE}/periph.tar --batch-size 108828 --trt
 ```
 
 After run, `pretrained/barbershop/` will contain following files:
@@ -294,9 +295,9 @@ pretrained/barbershop
 After exported the foveal and periphery models, move all `.trt` and `.ini` files in the output folder to a new folder under `cpp/nets`. Make sure the file names are `fovea.trt`, `fovea.ini`, `periph.trt` and `periph.ini`:
 
 ```bash
-mkdir cpp/nets/barbershop && \
-cd pretrained/barbershop/exported && \
-mv *.ini *.trt ../../../cpp/nets/barbershop/ && \
+mkdir cpp/nets/${SCENE} && \
+cd pretrained/${SCENE}/exported && \
+mv *.ini *.trt ../../../cpp/nets/${SCENE}/ && \
 cd ../../..
 ```
 
