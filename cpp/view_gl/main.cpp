@@ -23,9 +23,9 @@ std::string modelDir;
 
 glm::vec2 frameRes(1440.0f, 1600.0f);
 float windowScale = 0.5f;
-glm::vec3 trs;
-glm::vec3 rot_angle;
-glm::mat3 rot(1.0f);
+glm::vec3 trs = {};
+glm::vec3 rot_angle = {};
+glm::mat3 rot = glm::mat3{1.0f};
 glm::vec2 fovea_pos = frameRes / 2.0f;
 glm::vec2 fovea_pos_r = frameRes / 2.0f;
 float disparity = 0.0f;
@@ -45,7 +45,7 @@ static void key_callback(GLFWwindow *window, int key, int scancode, int action, 
 	if (action == GLFW_PRESS || action == GLFW_REPEAT)
 	{
 		float speed = 0.005f;
-		glm::vec3 dt;
+		glm::vec3 dt = {};
 		switch (key)
 		{
 		case GLFW_KEY_RIGHT:
@@ -60,10 +60,10 @@ static void key_callback(GLFWwindow *window, int key, int scancode, int action, 
 		case GLFW_KEY_DOWN:
 			dt.y -= speed;
 			break;
-		case GLFW_KEY_PAGE_UP:
+		case GLFW_KEY_PAGE_DOWN:
 			dt.z += speed;
 			break;
-		case GLFW_KEY_PAGE_DOWN:
+		case GLFW_KEY_PAGE_UP:
 			dt.z -= speed;
 			break;
 		case GLFW_KEY_S:

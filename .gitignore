@@ -108,5 +108,6 @@ output/
 outputE/
 
 /data/**/
+/cpp/nets/**/
 bin/
 .vscode/

@@ -44,6 +44,7 @@ Install all dependencies by:
 ```bash
 conda create -n fov_nerf python=3.10
 conda activate fov_nerf
+conda install ffmpeg -c conda-forge
 conda install pytorch==1.11.0 torchvision==0.12.0 torchaudio==0.11.0 cudatoolkit=11.3 -c pytorch
 conda install numpy tqdm matplotlib tensorboard configargparse
 pip install PyGLM tensorboardX lpips
@@ -103,9 +104,16 @@ When successfully compiled, the executable file will be generated under `cpp/bin
 
 ## Dataset
 
-You can download the synthetic and real datasets used in our paper from [Google Drive](https://drive.google.com/drive/folders/17rf3KXXOGt-o4xbK04GPmFgknQgFdZpL?usp=sharing).
+You can download the datasets used in our paper from [Google Drive](https://drive.google.com/drive/folders/17rf3KXXOGt-o4xbK04GPmFgknQgFdZpL?usp=sharing).
 
 Please also cite the original papers if you use any of them in your work.
+
+| Scene        | Type         | Translation Box | Rotation Range                                                             |
+|--------------|--------------|-----------------|----------------------------------------------------------------------------|
+| barbershop   | synthetic    | 0.3m            | fovea: $360\degree\times80\degree$<br>periph: $360\degree\times180\degree$ |
+| classroom    | synthetic    | 0.6m            | fovea: $360\degree\times80\degree$<br>periph: $360\degree\times180\degree$ |
+| lobby        | synthetic    | 1.0m            | fovea: $360\degree\times80\degree$<br>periph: $360\degree\times180\degree$ |
+| stones       | synthetic    | 1.0m            | fovea: $360\degree\times80\degree$<br>periph: $360\degree\times180\degree$ |
 
 ### Prepare your own dataset
 
@@ -113,14 +121,14 @@ To prepare a new dataset of a single scene for training and testing, please foll
 
 ```bash
 ${SCENE}
-|-- ${TRAIN_DATASET}.json        # dataset description file
+|-- ${TRAIN_DATASET}.json     # dataset description file
 |-- ${TRAIN_DATASET}
-    |-- view_0000.png                 # target image for each view
+    |-- view_0000.png         # target image for each view
     |-- view_0001.png
     ...
-|-- ${TEST_DATASET}.json         # dataset description file
+|-- ${TEST_DATASET}.json      # dataset description file
 |-- ${TEST_DATASET}
-    |-- view_0000.png                 # target image for each view
+    |-- view_0000.png         # target image for each view
     |-- view_0001.png
     ...
 ```
@@ -308,10 +316,6 @@ nohup python train.py ${ARGUMENTS} > /dev/null 2>&1 &
 
 This command will return immediately and disable the output of messages to the terminal.
 You can check the log file for the training progress.
-
-### 3. Failed to generate video (Unknown encoder 'libx264')?
-
-The python scripts use `ffmpeg` and H.264 codec to generate demo video. Make sure your `ffmpeg` is built with `--enable-libx264` flag. If you don't have one, please follow the guide in [this memo](docs/ffmpeg_guide.md) to build your own.
 
 ## Citation
 
