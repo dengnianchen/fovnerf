@@ -99,8 +99,7 @@ sudo apt install libglfw3 libglfw3-dev libglew2.1 libglew-dev glew-utils libglm-
 **Compile**
 
 ```bash
-cd cpp/view_gl
-make
+cd cpp/view_gl && make
 ```
 
 When successfully compiled, the executable file will be generated under `cpp/bin` folder.
@@ -224,8 +223,7 @@ We implemented a simple real-time interactive rendering program based on OpenGL,
 To play with that, first follow [the guide](#requirements-and-installation) to install the dependencies and compile the program, then [export pretrained models](#export-pytorch-models). After that, run the program by:
 
 ```bash
-cd cpp/bin
-./view_gl nets/${SCENE}
+cd cpp/bin && ./view_gl ../nets/${SCENE}
 ```
 
 The optional command-line arguments are:
@@ -274,7 +272,7 @@ Outputs will be stored in `${OUT_DIR}/` laying besides the PyTorch model file. T
 For example, to export the pretrained model for *barbershop*, use the following command:
 
 ```bash
-python export.py pretrained/barbershop/fovea.tar --batch-size 51429 --trt
+python export.py pretrained/barbershop/fovea.tar --batch-size 51429 --trt && \
 python export.py pretrained/barbershop/periph.tar --batch-size 108828 --trt
 ```
 
@@ -286,16 +284,20 @@ pretrained/barbershop
 |-- periph.tar
 |-- exported       # The output folder
     |-- fovea.ini
+    |-- fovea.onnx
     |-- fovea.trt
     |-- periph.ini
+    |-- periph.onnx
     |-- periph.trt
 ```
 
 After exported the foveal and periphery models, move all `.trt` and `.ini` files in the output folder to a new folder under `cpp/nets`. Make sure the file names are `fovea.trt`, `fovea.ini`, `periph.trt` and `periph.ini`:
 
 ```bash
-mkdir cpp/nets/barbershop
-mv pretrained/barbershop/exported/*.ini pretrained/barbershop/exported/*.trt cpp/nets/barbershop/
+mkdir cpp/nets/barbershop && \
+cd pretrained/barbershop/exported && \
+mv *.ini *.trt ../../../cpp/nets/barbershop/ && \
+cd ../../..
 ```
 
 ## Q&A
