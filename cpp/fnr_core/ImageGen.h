@@ -10,7 +10,7 @@ public:
 
     void run(sptr<CudaArray<glm::vec4>> colors);
 
-    GLuint getGlResultTexture() { return _glResultTexture; }
+    GLuint getGlResultTexture() const { return _glResultTexture; }
 
 protected:
     glm::uvec2 _res;

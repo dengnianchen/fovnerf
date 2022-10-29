@@ -111,12 +111,13 @@ You can download the datasets used in our paper from [Google Drive](https://driv
 
 Please also cite the original papers if you use any of them in your work.
 
-| Scene        | Type         | Translation Box | Rotation Range                                                             |
-|--------------|--------------|-----------------|----------------------------------------------------------------------------|
-| barbershop   | synthetic    | 0.3m            | fovea: $360\degree\times80\degree$<br>periph: $360\degree\times180\degree$ |
-| classroom    | synthetic    | 0.6m            | fovea: $360\degree\times80\degree$<br>periph: $360\degree\times180\degree$ |
-| lobby        | synthetic    | 1.0m            | fovea: $360\degree\times80\degree$<br>periph: $360\degree\times180\degree$ |
-| stones       | synthetic    | 1.0m            | fovea: $360\degree\times80\degree$<br>periph: $360\degree\times180\degree$ |
+| Scene        | Type         | Translation Box | Rotation Range                                                              |
+|--------------|--------------|-----------------|-----------------------------------------------------------------------------|
+| barbershop   | synthetic    | 0.3m            | fovea: $360\degree\times80\degree$<br>periph: $360\degree\times180\degree$  |
+| classroom    | synthetic    | 0.6m            | fovea: $120\degree\times80\degree$<br>periph: $240\degree\times180\degree$  |
+| lobby        | synthetic    | 1.0m            | fovea: $360\degree\times80\degree$<br>periph: $360\degree\times180\degree$  |
+| stones       | synthetic    | 1.0m            | fovea: $360\degree\times80\degree$<br>periph: $360\degree\times180\degree$  |
+| sittingroom  | captured     | ~1.0m           | fovea: $360\degree\times180\degree$<br>periph: $360\degree\times180\degree$ |
 
 ### Prepare your own dataset
 

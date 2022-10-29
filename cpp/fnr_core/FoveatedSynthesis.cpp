@@ -16,12 +16,15 @@ public:
 
 	void run(View &view, glm::vec2 foveaPos, bool showPerf, glm::vec2 foveaPosR);
 
-	GLuint getGlResultTexture(uint index);
+	GLuint getGlResultTexture(uint index) const;
+
+	glm::vec2 getDepthRange() const;
 
 private:
 	bool _stereo;
 	uint _nRays;
 	uint _nSamples;
+	glm::vec2 _depthRange;
 	sptr<Camera> _fullCam;
 	sptr<Camera> _cams[NUM_LAYERS];
 	sptr<FovNeRFCore> _nets[NUM_NETS];
@@ -51,7 +54,7 @@ FoveatedSynthesis_Impl::FoveatedSynthesis_Impl(const std::string &modelDir, sptr
 		periphConfig.getInt("n_samples")};
 	uint encodeDim = foveaConfig.getInt("xfreqs");
 	uint coordChns = foveaConfig.getBool("with_radius") ? 3 : 2;
-	glm::vec2 depthRange(foveaConfig.getFloat("near"), foveaConfig.getFloat("far"));
+	_depthRange = {foveaConfig.getFloat("near"), foveaConfig.getFloat("far")};
 
 	// Init cams
 	for (uint i = 0; i < NUM_LAYERS; ++i)
@@ -66,9 +69,9 @@ FoveatedSynthesis_Impl::FoveatedSynthesis_Impl(const std::string &modelDir, sptr
 
 	// Init infers
 	_infers[0].reset(new FovNeRF(_nets[0], nRays[0], nSamples[0],
-									   depthRange, encodeDim, coordChns));
+								 _depthRange, encodeDim, coordChns));
 	_infers[1].reset(new FovNeRF(_nets[1], nRays[1] + nRays[2], nSamples[1],
-									   depthRange, encodeDim, coordChns));
+								 _depthRange, encodeDim, coordChns));
 
 	// Init image gens
 	for (uint i = 0; i < NUM_LAYERS; ++i)
@@ -198,9 +201,14 @@ void FoveatedSynthesis_Impl::run(View &view, glm::vec2 foveaPos, bool showPerf, 
 	}
 }
 
-GLuint FoveatedSynthesis_Impl::getGlResultTexture(uint index)
+GLuint FoveatedSynthesis_Impl::getGlResultTexture(uint index) const
 {
 	return _imageGens[index]->getGlResultTexture();
+}
+
+glm::vec2 FoveatedSynthesis_Impl::getDepthRange() const
+{
+	return _depthRange;
 }
 
 FoveatedSynthesis::FoveatedSynthesis(const std::string &modelDir, sptr<Camera> cam,
@@ -214,7 +222,12 @@ void FoveatedSynthesis::run(View &view, glm::vec2 foveaPos, bool showPerf, glm::
 	_impl->run(view, foveaPos, showPerf, foveaPosR);
 }
 
-GLuint FoveatedSynthesis::getGlResultTexture(uint index)
+GLuint FoveatedSynthesis::getGlResultTexture(uint index) const
 {
 	return _impl->getGlResultTexture(index);
+}
+
+glm::vec2 FoveatedSynthesis::getDepthRange() const
+{
+	return _impl->getDepthRange();
 }

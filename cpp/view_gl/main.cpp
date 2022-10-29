@@ -32,6 +32,7 @@ float disparity = 0.0f;
 bool mouse_button_down[] = {false, false, false};
 glm::vec2 mouse_pos;
 bool enable_shift = true;
+float speed = 0.005f;
 
 static void error_callback(int error, const char *description)
 {
@@ -44,7 +45,6 @@ static void key_callback(GLFWwindow *window, int key, int scancode, int action, 
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
 	if (action == GLFW_PRESS || action == GLFW_REPEAT)
 	{
-		float speed = 0.005f;
 		glm::vec3 dt = {};
 		switch (key)
 		{
@@ -228,6 +228,7 @@ int main(int argc, char **argv)
 
 	Logger::instance.info("Load model from %s", modelDir.c_str());
 	sptr<FoveatedSynthesis> syn(new FoveatedSynthesis(modelDir, _cam, _layerCams, stereo == STEREO_OPTI));
+	speed = syn->getDepthRange()[0] * 0.005f;
 	Logger::instance.info("Start main loop");
 
 	glEnable(GL_BLEND);

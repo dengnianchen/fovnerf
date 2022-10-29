@@ -11,7 +11,8 @@ public:
 
 	void run(View& view, glm::vec2 foveaPos, bool showPerf = false, glm::vec2 foveaPosR = {});
 
-	GLuint getGlResultTexture(uint index);
+	GLuint getGlResultTexture(uint index) const;
+	glm::vec2 getDepthRange() const;
 
 private:
 	sptr<FoveatedSynthesis_Impl> _impl;
