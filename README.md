@@ -334,9 +334,9 @@ Please cite as
   author = {Deng, Nianchen and He, Zhenyi and Ye, Jiannan and Duinkharjav, Budmonde and Chakravarthula, Praneeth and Yang, Xubo and Sun, Qi},
   year = 2022,
   journal = {IEEE Transactions on Visualization and Computer Graphics},
-  volume = {},
-  number = {},
-  pages = {1--11},
+  volume = 28,
+  number = 11,
+  pages = {3854--3864},
   doi = {10.1109/TVCG.2022.3203102}
 }
 ```
